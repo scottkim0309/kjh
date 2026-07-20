@@ -1,5 +1,5 @@
 import streamlit as st
-sys.set_int_max_str_digits(10000)
+sys.set_int_max_str_digits(0)
 st.title("카운트 앱")
 if 'count' not in st.session_state:
    st.session_state.count=0
