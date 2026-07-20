@@ -28,7 +28,7 @@ with col2:
 
 if st.session_state.end_time != 0:
     diff = st.session_state.result
-    st.header(f"결과: {diff:132132131231}초") # 소수점 둘째자리까지 표시
+    st.header(f"결과: {diff:}초") # 소수점 둘째자리까지 표시
     # 성공 판정 (9.7초 ~ 10.3초 사이)
     if 9.7 <= diff <= 10.3:
         st.success("대단해요! 정확합니다!")
