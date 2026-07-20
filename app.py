@@ -10,10 +10,9 @@ def reset_all():
     st.session_state.shoes = "스니커즈"
     st.session_state.acc = []
 
-st.button("전체 초기화", on_click=reset_all)
 with st.sidebar:
     st.header("프로필")
-    user_name = st.text_input("닉네임")
+    user_name = st.text_input("닉네임", key="user_name")
     weather = st.selectbox("오늘 날씨", ["맑음", "흐림", "비/눈", "매우 추움"])
     st.markdown("---")
     st.info(f"반가워요, {user_name}님! 오늘 날씨는 '{weather}'이네요.")
@@ -59,4 +58,5 @@ if st.button("코디 완성하기"):
         with st.expander("코디팁 영상 "):
             st.video("https://www.youtube.com/watch?v=LebgUk-pEw8")
             st.write("전문가가 제안하는 코디 연출법을 참고ㄱㄱ ")
+st.button("전체 초기화", on_click=reset_all)            
 
