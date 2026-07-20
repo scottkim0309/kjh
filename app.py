@@ -1,4 +1,6 @@
 import streamlit as st
 
-st.title("나의 웹앱")
-st.write("앙기모띠")
+st.title("AI챗봇 만들기")
+st.header("오늘의 질문")
+st.subheader("입력안내")
+st.write("질문을 자유롭게 입력")
