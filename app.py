@@ -1,14 +1,11 @@
 import streamlit as st
 
-st.header("앱 UI만들기")
-user_id = st.text_input("이름", placeholder="이름")
-ai_model = st.radio("학년", ["1", "2", "3"], horizontal=True)
-tone = st.selectbox("반", ["1", "2", "3","4","5","6"])
-creativity = st.select_slider("난이도",options=["쉬움", "보통", "어려움"],value="보통")
-ai_speed = st.slider("점수",0,100,50)
-question = st.text_area("소감", placeholder="소감입력.")
-st.markdown("---")
-if st.button("확인"):
-        st.success(f"{user_id} / {ai_model}학년 / {tone}반 / {creativity}")
-        st.markdown(f"점수: `{ai_speed}`")
-        st.info(f"소감: {question}")
+with st.sidebar:
+    st.header("프로필")
+    user_name = st.text_input("닉네임")
+    weather = st.selectbox("오늘 날씨", ["맑음", "흐림", "비/눈", "매우 추움"])
+    st.markdown("---")
+    st.info(f"반가워요, {user_name}님! 오늘 날씨는 '{weather}'이네요.")
+
+st.title("👗 AI 코디 메이커")
+st.write("사이드바에서 날씨를 먼저 선택하고 코디를 시작하세요!")
