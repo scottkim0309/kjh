@@ -9,6 +9,6 @@ ai_speed = st.slider("점수",0,100,50)
 question = st.text_area("소감", placeholder="소감입력.")
 st.markdown("---")
 if st.button("확인"):
-        st.success(f"{user_id} / {ai_model}학년 / {tone}반 / {creaticity}")
+        st.success(f"{user_id} / {ai_model}학년 / {tone}반 / {creativity}")
         st.markdown(f"점수: `{ai_speed}`")
         st.info(f"소감: {question}")
