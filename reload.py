@@ -1,6 +1,5 @@
 import streamlit as st
 
-st.session_state.user_name=(user_name)
 with st.sidebar:
   st.header("닉네임 입력")
   user_name = st.text_input("닉네임", placeholder="게임닉을 입력해주세요")
@@ -8,9 +7,6 @@ with st.sidebar:
     if not user_name.strip():
         st.warning("⚠️ 내용을 작성하지 않았습니다! 입력 후 다시 시도해 주세요.")
     else:st.success("있는계정입니다")
-  if not st.session_state.user_name:
-    st.info("👈 사이드바에서 닉네임을 입력하고 [확인] 버튼을 눌러주세요.")
-    st.stop()      
 st.title("😎이색 바텀조합 선택")
 st.write(f"🎮 **{st.session_state.user_name}**님, 원하는 바텀 조합을 선택해보세요!")
 st.markdown("---")
