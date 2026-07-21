@@ -78,7 +78,7 @@ def page_report():
 def page_ai():
     st.header("대화")
     prompt = st.text_input("질문")
-    if st.button("전송")
+    if st.button("전송"):
         response = ai_client.response.create(model1="gpt-5,4-mini",input=prompt)
         st.write(response.output_text)
 pg = st.navigation([
