@@ -28,7 +28,7 @@ with st.sidebar:
         else:
             st.session_state.user_name = input_name
             st.success("확인되었습니다!")
-     if st.button("초기화"):
+    if st.button("초기화"):
         st.session_state.clear()
         st.rerun()       
 
