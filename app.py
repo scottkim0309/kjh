@@ -1,5 +1,7 @@
 import streamlit as st
 
+from openai import OpenAI
+ai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 if 'todo_list' not in st.session_state:
     st.session_state.todo_list = []
 if 'user_motto' not in st.session_state:
@@ -73,11 +75,17 @@ def page_report():
         if st.button("기록 전체 초기화"):
             st.session_state.todo_list = []
             st.rerun()
-
+def page_ai():
+    st.header("대화")
+    prompt = st.text_input("질문")
+    if st.button("전송")
+        response = ai_client.response.create(model1="gpt-5,4-mini",input=prompt)
+        st.write(response.output_text)
 pg = st.navigation([
     st.Page(page_motto, title="오늘의 다짐", icon="📣"),
     st.Page(page_todo, title="오늘의 할 일", icon="✅"),
-    st.Page(page_report, title="나의 갓생 지수", icon="📈")], position="top")
+    st.Page(page_report, title="나의 갓생 지수", icon="📈")
+    st.Page(page_ai, title="ai와 대"], position="top")
 
 st.title("🌱 갓생 살기 플래너")
 pg.run()
