@@ -7,6 +7,6 @@ with st.sidebar:
     if not user_name.strip():
         st.warning("⚠️ 내용을 작성하지 않았습니다! 입력 후 다시 시도해 주세요.")
     else:st.success("있는계정입니다")
-st.title("😎wildrift 이색 바텀조합 선택")
+st.title("😎이색 바텀조합 선택")
 st.subheader("바텀조합")
-Champion = st.radio("바텀조합", ["가렌","다리우스","아트록스","레넥톤","볼리베어","피오라","요네","카밀","잭스","이렐리아","말파이트","오른","쉔","사이온","리븐","나서스","제이스"], horizontal=True, label_visibility="collapsed")
+Champion = st.radio("바텀조합", ["세나,사이온","세라핀,애쉬","야스오,요네","직스,레오나","베이가,알리스타","브랜드,럭스","럭스,소나","모르가나,파이크","스웨인,노틸러스","티모,신 짜오"], horizontal=True, label_visibility="collapsed")
