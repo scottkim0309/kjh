@@ -23,7 +23,7 @@ with st.sidebar:
     input_name = st.text_input("닉네임", placeholder="게임닉을 입력해주세요")
     if st.button("확인"):
         if not input_name.strip():
-            st.warning("⚠️ 내용을 작성하지 않았습니다! 입력 후 다시 시도해 주세요.", key="input_nickname")
+            st.warning("⚠️ 내용을 작성하지 않았습니다! 입력 후 다시 시도해 주세요.", key="input_name")
             st.session_state.user_name = ""
         else:
             st.session_state.user_name = input_name
