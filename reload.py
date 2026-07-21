@@ -10,10 +10,13 @@ if "todo_list" not in st.session_state:
     st.session_state.todo_list = []
 
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "system", "content": "넌 최고의 롤(LoL) 코치야."}]
+    st.session_state.messages = [{"role": "system", "content": "넌 최고의 롤 코치임"}]
 
 if "selected_combination" not in st.session_state:
-    st.session_state.selected_combo = "세나,사이온"
+    st.session_state.selected_combination = ""
+
+if "combination_completed" not in st.session_state:
+    st.session_state.combination_completed = False
 
 with st.sidebar:
     st.header("닉네임 입력")
@@ -43,7 +46,6 @@ def page_combination():
         horizontal=True, 
         label_visibility="collapsed"
     )
-    st.session_state.selected_combo = Champion
 
     descriptions = {
         "세나,사이온": "사이온이 E로 미니언을 날리고 세나의 W를 연계하여 강력한 견제가 가능합니다.",
@@ -59,8 +61,17 @@ def page_combination():
     }
 
     st.markdown("---")
-    if Champion in descriptions:
-        st.info(f"💡 **[{Champion}] 조합 특징**\n\n{descriptions[Champion]}")
+    
+    if st.button("🔥 조합 완성하기"):
+        st.session_state.selected_combination = Champion
+        st.session_state.combination_completed = True
+
+    if st.session_state.combination_completed:
+        with st.container(border=True):
+            st.subheader("🎯 선택한 조합 정보")
+            st.write(f"👤 **소환사:** {st.session_state.user_name}")
+            st.write(f"⚔️ **선택한 조합:** {st.session_state.selected_combination}")
+            st.info(f"💡 **조합 특징**\n\n{descriptions[st.session_state.selected_combination]}")
 
 def page_ai():
     st.header("💬 AI 코치와 대화하기")
@@ -77,7 +88,7 @@ def page_ai():
             st.markdown(question)
 
         with st.chat_message("assistant"):
-            status_context = f"현재 유저 닉네임: {st.session_state.user_name}, 선택한 조합: {st.session_state.selected_combo}"
+            status_context = f"현재 유저 닉네임: {st.session_state.user_name}, 선택한 조합: {st.session_state.selected_combination}"
             api_prompt = st.session_state.messages + [{"role": "system", "content": status_context}]
             
             with st.spinner("AI 코치가 생각 중...🤔"):
