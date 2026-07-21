@@ -85,8 +85,8 @@ def page_ai():
         if message["role"] != "system":
             with st.chat_message(message["role"]):
                 st.markdown(messagep["content"])
-        response = ai_client.response.create(model1="gpt-5,4-mini",input=prompt)
-        st.write(response.output_text)
+    response = ai_client.response.create(model1="gpt-5,4-mini",input=prompt)
+    st.write(response.output_text)
         
         
 pg = st.navigation([
