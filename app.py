@@ -85,7 +85,7 @@ pg = st.navigation([
     st.Page(page_motto, title="오늘의 다짐", icon="📣"),
     st.Page(page_todo, title="오늘의 할 일", icon="✅"),
     st.Page(page_report, title="나의 갓생 지수", icon="📈")
-    st.Page(page_ai, title="ai와 대"], position="top")
+    st.Page(page_ai, title="ai와 대화")], position="top")
 
 st.title("🌱 갓생 살기 플래너")
 pg.run()
