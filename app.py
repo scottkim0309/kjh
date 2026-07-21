@@ -79,9 +79,15 @@ def page_report():
 def page_ai():
     st.header("대화")
     prompt = st.text_input("질문")
-    if st.button("전송"):
+    if "messages" not in st.session_state:
+        st.session_state.messages = [{"role":"system","content":"넌 최고의 코치"}]
+    for message in st.session_state.messages:
+        if message["role"] != "system":
+            with st.chat_message(message["role"]):
+                st.markdown(messagep["content"])
         response = ai_client.response.create(model1="gpt-5,4-mini",input=prompt)
         st.write(response.output_text)
+        
         
 pg = st.navigation([
     st.Page(page_motto, title="오늘의 다짐", icon="📣"),
