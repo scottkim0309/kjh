@@ -44,7 +44,7 @@ def page2():
 def page3():
     st.header("📈 3. 나의 갓생 지수")
     if not st.session_state.todo_list:
-    st.write("아직 등록된 할 일이 없습니다.")
+           st.write("아직 등록된 할 일이 없습니다.")
     else:
         total = len(st.session_state.todo_list)
         count = 0
