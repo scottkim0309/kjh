@@ -1,20 +1,45 @@
 import streamlit as st
-
 from openai import OpenAI
+
 ai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
+if "user_name" not in st.session_state:
+    st.session_state.user_name = ""
+
+if "todo_list" not in st.session_state:
+    st.session_state.todo_list = []
+
+if "messages" not in st.session_state:
+    st.session_state.messages = [{"role": "system", "content": "넌 최고의 롤(LoL) 코치야."}]
+
 with st.sidebar:
-  st.header("닉네임 입력")
-  user_name = st.text_input("닉네임", placeholder="게임닉을 입력해주세요")
-  if st.button("확인"):
-    if not user_name.strip():
-        st.warning("⚠️ 내용을 작성하지 않았습니다! 입력 후 다시 시도해 주세요.")
-    else:st.success("있는계정입니다")
-st.title("😎이색 바텀조합 선택")
-st.write(f"🎮 **{user_name}**님, 원하는 바텀 조합을 선택해보세요!")
+    st.header("닉네임 입력")
+    input_name = st.text_input("닉네임", placeholder="게임닉을 입력해주세요")
+    if st.button("확인"):
+        if not input_name.strip():
+            st.warning("⚠️ 내용을 작성하지 않았습니다! 입력 후 다시 시도해 주세요.")
+            st.session_state.user_name = ""
+        else:
+            st.session_state.user_name = input_name
+            st.success("확인되었습니다!")
+
+if not st.session_state.user_name:
+    st.info("👈 사이드바에서 닉네임을 입력하고 [확인] 버튼을 눌러주세요.")
+    st.stop()
+
+st.title("😎 이색 바텀조합 선택")
+st.write(f"🎮 **{st.session_state.user_name}**님, 원하는 바텀 조합을 선택해보세요!")
 st.markdown("---")
+
 st.subheader("바텀조합")
-Champion = st.radio("바텀조합", ["세나,사이온","세라핀,애쉬","야스오,요네","직스,레오나","베이가,알리스타","브랜드,럭스","럭스,소나","모르가나,파이크","스웨인,노틸러스","티모,신 짜오"], horizontal=True, label_visibility="collapsed")
+Champion = st.radio(
+    "바텀조합", 
+    ["세나,사이온", "세라핀,애쉬", "야스오,요네", "직스,레오나", "베이가,알리스타", 
+     "브랜드,럭스", "럭스,소나", "모르가나,파이크", "스웨인,노틸러스", "티모,신 짜오"], 
+    horizontal=True, 
+    label_visibility="collapsed"
+)
+
 descriptions = {
     "세나,사이온": "사이온이 E로 미니언을 날리고 세나의 W를 연계하여 강력한 견제가 가능합니다.",
     "세라핀,애쉬": "애쉬의 궁극기 스턴 이후 세라핀 궁극기로 이어지는 원거리 CC 사기 조합입니다.",
@@ -27,35 +52,38 @@ descriptions = {
     "스웨인,노틸러스": "끌어당기는 CC기가 2개! 한번 잡히면 절대 살아나갈 수 없는 통곡의 벽 조합입니다.",
     "티모,신 짜오": "신 짜오의 돌진과 티모의 실명/실버 스킬로 상대 원딜을 아무것도 못 하게 만드는 조합입니다."
 }
+
 st.markdown("---")
 if Champion in descriptions:
     st.info(f"💡 **[{Champion}] 조합 특징**\n\n{descriptions[Champion]}")
 
 st.markdown("---")
-st.header("대화")
-    prompt = st.text_input("질문")
-    if "messages" not in st.session_state:
-        st.session_state.messages = [{"role":"system","content":"넌 최고의 코치"}]
-    for message in st.session_state.messages:
-        if message["role"] != "system":
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-    question = st.chat_input("질문을 입력하세요")
-    if question:
-        st.session_state.messages.append({"role": "user", "content": question})
-        with st.chat_message("user"):
-            st.markdown(question)
-        with st.chat_message("assistant"):
-            status_context = f"현재 나의 할 일과 달성 여부: {st.session_state.todo_list}"
-            prompt = st.session_state.messages + [{"role": "system", "content": status_context}]
-            with st.spinner("AI 코치가 생각 중...🤔"):
-                response = ai_client.chat.completions.create(
-                    model="gpt-5.4-mini",
-                    messages=prompt)
-                ai_response = response.choices[0].message.content
-                st.markdown(ai_response)
-        st.session_state.messages.append({"role": "assistant", "content": ai_response})
+st.header("💬 AI 코치와 대화하기")
 
+for message in st.session_state.messages:
+    if message["role"] != "system":
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+question = st.chat_input("질문을 입력하세요")
+if question:
+    st.session_state.messages.append({"role": "user", "content": question})
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    with st.chat_message("assistant"):
+        status_context = f"현재 유저 닉네임: {st.session_state.user_name}, 선택한 조합: {Champion}"
+        api_prompt = st.session_state.messages + [{"role": "system", "content": status_context}]
+        
+        with st.spinner("AI 코치가 생각 중...🤔"):
+            response = ai_client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=api_prompt
+            )
+            ai_response = response.choices[0].message.content
+            st.markdown(ai_response)
+
+    st.session_state.messages.append({"role": "assistant", "content": ai_response})
 
 
 
