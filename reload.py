@@ -66,8 +66,8 @@ def page_combination():
         "베이가,알리스타": "https://www.youtube.com/watch?v=7uQksFN-AlI",
         "노틸러스,럭스": "https://www.youtube.com/watch?v=R9EzrzHIHZI",
         "럭스,소나": "https://www.youtube.com/watch?v=Yzee-hU0HMM",
-        "모르가나,리신": "https://www.youtube.com/shorts/G_rAwQIEz3U",
-        "스웨인,노틸러스": "https://www.youtube.com/shorts/-V2aHtQj3m8"
+        "모르가나,리신": "https://www.youtube.com/watch?v=yQ6ipETH14U",
+        "스웨인,노틸러스": "https://www.youtube.com/watch?v=Zcgk96n0c3w"
     }
 
     st.markdown("---")
