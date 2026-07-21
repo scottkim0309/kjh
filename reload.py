@@ -1,5 +1,8 @@
 import streamlit as st
 
+from openai import OpenAI
+ai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
 with st.sidebar:
   st.header("닉네임 입력")
   user_name = st.text_input("닉네임", placeholder="게임닉을 입력해주세요")
