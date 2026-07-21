@@ -9,4 +9,4 @@ with st.sidebar:
     else:st.success("있는계정입니다")
 st.title("😎wildrift 탑챔프 추천")
 st.subheader("챔프선택")
-Champion = st.radio("챔프", ["다리우스","아트록스","볼리베어","피오라","요네","카밀","잭스","이렐리아","사이온"], horizontal=True, label_visibility="collapsed")
+Champion = st.radio("챔프", ["가렌","다리우스","아트록스","레넥톤""세트","볼리베어","피오라","요네","카밀","잭스","이렐리아","말파이트","오른","쉔","사이온","리븐","나서스","제이스"], horizontal=True, label_visibility="collapsed")
