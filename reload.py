@@ -58,7 +58,7 @@ if Champion in descriptions:
     st.info(f"💡 **[{Champion}] 조합 특징**\n\n{descriptions[Champion]}")
 
 st.markdown("---")
-st.header("💬 AI 코치와 대화하기")
+st.header("💬 똑똑한 형님과 대화하기")
 
 for message in st.session_state.messages:
     if message["role"] != "system":
