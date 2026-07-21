@@ -32,6 +32,29 @@ if Champion in descriptions:
     st.info(f"💡 **[{Champion}] 조합 특징**\n\n{descriptions[Champion]}")
 
 st.markdown("---")
+st.header("대화")
+    prompt = st.text_input("질문")
+    if "messages" not in st.session_state:
+        st.session_state.messages = [{"role":"system","content":"넌 최고의 코치"}]
+    for message in st.session_state.messages:
+        if message["role"] != "system":
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+    question = st.chat_input("질문을 입력하세요")
+    if question:
+        st.session_state.messages.append({"role": "user", "content": question})
+        with st.chat_message("user"):
+            st.markdown(question)
+        with st.chat_message("assistant"):
+            status_context = f"현재 나의 할 일과 달성 여부: {st.session_state.todo_list}"
+            prompt = st.session_state.messages + [{"role": "system", "content": status_context}]
+            with st.spinner("AI 코치가 생각 중...🤔"):
+                response = ai_client.chat.completions.create(
+                    model="gpt-5.4-mini",
+                    messages=prompt)
+                ai_response = response.choices[0].message.content
+                st.markdown(ai_response)
+        st.session_state.messages.append({"role": "assistant", "content": ai_response})
 
 
 
