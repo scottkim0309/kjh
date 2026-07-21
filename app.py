@@ -84,7 +84,7 @@ def page_ai():
     for message in st.session_state.messages:
         if message["role"] != "system":
             with st.chat_message(message["role"]):
-                st.markdown(messagep["content"])
+                st.markdown(message["content"])
     question = st.chat_input("질문을 입력하세요")
     if question:
         st.session_state.messages.append({"role": "user", "content": question})
