@@ -30,7 +30,7 @@ if Champion in descriptions:
     st.info(f"💡 **[{Champion}] 조합 특징**\n\n{descriptions[Champion]}")
 
 
-
+pg = st.navigation([])
 
 
 
