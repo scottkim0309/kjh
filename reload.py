@@ -1,10 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 
-if st.button("초기화"):
-        st.session_state.clear()
-        st.rerun()
-
 ai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 if "user_name" not in st.session_state:
@@ -126,6 +122,10 @@ pg = st.navigation([
 ])
 
 pg.run()
+
+if st.button("초기화"):
+        st.session_state.clear()
+        st.rerun()
 
 
 
