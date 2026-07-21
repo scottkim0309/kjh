@@ -2,6 +2,7 @@ import streamlit as st
 
 from openai import OpenAI
 ai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
 if 'todo_list' not in st.session_state:
     st.session_state.todo_list = []
 if 'user_motto' not in st.session_state:
@@ -81,6 +82,7 @@ def page_ai():
     if st.button("전송"):
         response = ai_client.response.create(model1="gpt-5,4-mini",input=prompt)
         st.write(response.output_text)
+        
 pg = st.navigation([
     st.Page(page_motto, title="오늘의 다짐", icon="📣"),
     st.Page(page_todo, title="오늘의 할 일", icon="✅"),
