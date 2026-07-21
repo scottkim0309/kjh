@@ -82,6 +82,10 @@ def page_combination():
             st.write(f"👤 **소환사:** {st.session_state.user_name}")
             st.write(f"⚔️ **선택한 조합:** {st.session_state.selected_combination}")
             st.info(f"💡 **조합 특징**\n\n{descriptions[st.session_state.selected_combination]}")
+            st.subheader("🎬 플레이 영상")
+            current_video = videos.get(st.session_state.selected_combination)
+            if current_video:
+                st.video(current_video)
 
 
 def page_ai():
