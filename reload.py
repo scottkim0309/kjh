@@ -20,7 +20,7 @@ if "combination_completed" not in st.session_state:
 
 with st.sidebar:
     st.header("닉네임 입력")
-    input_name = st.text_input("닉네임", placeholder="게임닉을 입력해주세요", key="input_name")
+    input_name = st.text_input("닉네임", placeholder="게임닉을 입력해주세요", key="st.session_state.user_name")
     if st.button("확인"):
         if not input_name.strip():
             st.warning("⚠️ 내용을 작성하지 않았습니다! 입력 후 다시 시도해 주세요.")
