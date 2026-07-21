@@ -42,7 +42,7 @@ def page_combination():
     Champion = st.radio(
         "바텀조합", 
         ["세나,사이온", "세라핀,애쉬", "야스오,요네", "직스,레오나", "베이가,알리스타", 
-         "브랜드,럭스", "럭스,소나", "모르가나,파이크", "스웨인,노틸러스", "티모,신 짜오"], 
+         "노틸러스,럭스", "럭스,소나", "모르가나,리신", "스웨인,노틸러스"], 
         horizontal=True, 
         label_visibility="collapsed"
     )
@@ -53,11 +53,21 @@ def page_combination():
         "야스오,요네": "에어본 연계와 강력한 맞딜로 한타 파괴력이 매우 뛰어난 칼바람/이색 조합입니다.",
         "직스,레오나": "레오나의 든든한 CC기 속에서 직스가 안전하게 포킹 및 타워 철거를 진행합니다.",
         "베이가,알리스타": "베이가의 사건 지평선(E) 벽 쪽으로 알리스타가 W(밀치기)로 박아버리는 확정 스턴 조합입니다.",
-        "브랜드,럭스": "스킬 하나만 맞춰도 체력이 다 깎이는 무지막지한 딜찍누 듀오입니다.",
+        "노틸러스,럭스": "스킬 하나만 맞춰도 체력이 다 깎이는 무지막지한 딜찍누 듀오입니다.",
         "럭스,소나": "무한 쉴드와 힐, 속도 증가로 죽지 않고 끈질기게 버티는 유지력 조합입니다.",
-        "모르가나,파이크": "모르가나의 블랙실드로 파이크의 진입을 돕고, 속박 후 파이크 궁으로 킬을 쓸어담습니다.",
-        "스웨인,노틸러스": "끌어당기는 CC기가 2개! 한번 잡히면 절대 살아나갈 수 없는 통곡의 벽 조합입니다.",
-        "티모,신 짜오": "신 짜오의 돌진과 티모의 실명/실버 스킬로 상대 원딜을 아무것도 못 하게 만드는 조합입니다."
+        "모르가나,리신": "모르가나의 블랙실드로 리신의 진입을 돕고, 속박 후 리신 궁으로 킬을 쓸어담습니다.",
+        "스웨인,노틸러스": "끌어당기는 CC기가 2개! 한번 잡히면 절대 살아나갈 수 없는 통곡의 벽 조합입니다."
+    }
+    videos = {
+        "세나,사이온": "https://www.youtube.com/watch?v=4dxhXf72yfg",
+        "세라핀,애쉬": "https://www.youtube.com/watch?v=HnYeF5-q6Q0",
+        "야스오,요네": "https://www.youtube.com/watch?v=3yBE8bLLl0g",
+        "직스,레오나": "https://www.youtube.com/watch?v=0e-Fd1HAjzw",
+        "베이가,알리스타": "https://www.youtube.com/watch?v=7uQksFN-AlI",
+        "노틸러스,럭스": "https://www.youtube.com/watch?v=R9EzrzHIHZI",
+        "럭스,소나": "https://www.youtube.com/watch?v=Yzee-hU0HMM",
+        "모르가나,리신": "https://www.youtube.com/shorts/G_rAwQIEz3U",
+        "스웨인,노틸러스": "https://www.youtube.com/shorts/-V2aHtQj3m8"
     }
 
     st.markdown("---")
@@ -72,6 +82,7 @@ def page_combination():
             st.write(f"👤 **소환사:** {st.session_state.user_name}")
             st.write(f"⚔️ **선택한 조합:** {st.session_state.selected_combination}")
             st.info(f"💡 **조합 특징**\n\n{descriptions[st.session_state.selected_combination]}")
+
 
 def page_ai():
     st.header("💬 AI 코치와 대화하기")
