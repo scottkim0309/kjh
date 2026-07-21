@@ -10,7 +10,7 @@ if "todo_list" not in st.session_state:
     st.session_state.todo_list = []
 
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "system", "content": "넌 최고의 롤(LoL) 코치야."}]
+    st.session_state.messages = [{"role": "system", "content": "넌 최고의 롤(LoL) 코치임"}]
 
 with st.sidebar:
     st.header("닉네임 입력")
