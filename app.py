@@ -11,6 +11,7 @@ def add_todo():
         st.session_state.todo_list.append([task, False])
         st.toast("할 일이 추가되었습니다!")
         st.session_state.todo_input = ""
+        
 def page1():
     st.title("🌱 갓생 살기 플래너")
     st.header("📣 1. 오늘의 다짐")
@@ -19,6 +20,7 @@ def page1():
         st.session_state.user_motto = motto
         st.success("좌우명이 등록되었습니다!")
     st.markdown("---")
+    
 def page2():
     st.header("✅ 2. 오늘의 할 일")
     st.write(f"현재 다짐: **{st.session_state.user_motto}**")
@@ -40,6 +42,7 @@ def page2():
             if st.session_state.todo_list[i][1]:
                 st.write("✅ **달성!**")
     st.markdown("---")
+    
 def page3():
     st.header("📈 3. 나의 갓생 지수")
     if not st.session_state.todo_list:
@@ -57,4 +60,6 @@ def page3():
             st.session_state.todo_list = []
             st.rerun()
 
-pg = st.navigation([ st.Page(page1, title="오늘의 다짐"), st.Page(page2, title="오늘의 할일"), st.Page(page3, title="나의갓생 지수 ") ])
+pg = st.navigation([st.Page(page1, title="오늘의 다짐"),
+                    st.Page(page2, title="오늘의 할일"),
+                    st.Page(page3, title="나의갓생 지수 ")])
