@@ -95,7 +95,7 @@ def page_ai():
             prompt = st.session_state.messages + [{"role": "system", "content": status_context}]
             with st.spinner("AI 코치가 생각 중...🤔"):
                 response = ai_client.chat.completions.create(
-                    model="gpt-5.4-mini",
+                    model="gpt-4o-mini",
                     messages=prompt)
                 ai_response = response.choices[0].message.content
                 st.markdown(ai_response)
