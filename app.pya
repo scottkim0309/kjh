@@ -1,62 +1,102 @@
+import re
+import urllib.parse
 import streamlit as st
+from openai import OpenAI
 
 def reset_all():
     st.session_state.user_name = ""
-    st.session_state.weather = "맑음"
-    st.session_state.top_type = "후드티"
-    st.session_state.top_color = "밝음"
-    st.session_state.bottom_type = "청바지"
-    st.session_state.bottom_color = "슬림"
-    st.session_state.shoes = "스니커즈"
-    st.session_state.acc = []
+    st.session_state.weather = "☀️ 화창하고 밝음"
+    st.session_state.feel = "텐션 최고! 🥳"
+    st.session_state.genre = "힙합"
+    st.session_state.with_whom = "👤 나 혼자만의 시간"
+    st.session_state.extra_info = ""
+
+ai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+st.set_page_config(page_title="기분 맞춤 추천기", page_icon="🍕", layout="centered")
+
+st.title("🎧 오늘 뭐 먹고 뭐 듣지?")
+st.caption("현재 당신의 상황과 기분에 딱 맞는 음식과 노래를 추천해 드려요!")
 
 with st.sidebar:
     st.header("프로필")
     user_name = st.text_input("닉네임", key="user_name")
-    weather = st.selectbox("오늘 날씨", ["맑음", "흐림", "비/눈", "매우 추움"], key="weather")
+    weather = st.selectbox("오늘 날씨", ["☀️ 화창하고 밝음", "🌧️ 비가 내림", "☁️ 흐리고 꿀꿀함", "❄️ 춥거나 눈이 옴", "🌙 센치한 밤"], key="weather")
+    feel = st.selectbox("당신의 기분은 어떤가요?",["최악 😭", "우울/지침 😮‍💨", "평범 😐", "기분 좋음 😊", "텐션 최고! 🥳"], key="feel")
+    with_whom = st.selectbox("👥 누구와 함께 있나요?", ["👤 나 혼자만의 시간", "👥 친구들과 함께", "💕 연인과 데이트", "🏠 가족들과 함께"], key="with_whom")
+    genre = st.selectbox("🎶 어떤 장르의 노래를 듣고싶나요?", ["힙합", "발라드", "트로트", "팝송","동요"], key="genre")
+    extra_info = st.text_input("💡 추가로 들려주고 싶은 이야기가 있나요? (선택)", placeholder="예: 오늘 시험이 끝났어요, 외국 힙합이 듣고싶어요 등", key="extra_info")
     st.markdown("---")
-    st.info(f"반가워요, {user_name}님! 오늘 날씨는 '{weather}'이네요.")
+    st.info(f"반가워요, {user_name}님! 오늘 날씨는 '{weather}'이네요. 당신의 기분은 '{feel}'이신가요? 그렇다면 이 기분과 '{with_whom}'일때에 맞는 노래와 음식을 추천해 드릴게요!")
 
-st.title("👗 AI 코디 메이커")
-st.write("사이드바에서 날씨를 먼저 선택하고 코디를 시작하세요!")
+if st.button("✨ 맞춤 추천 받기", use_container_width=True):
+    prompt = f"""
+    기분이랑 날씨, 함께 있는 사람, 그리고 원하는 장르({genre})에 따라 음식과 노래 3곡을 추천해주세요!
+    
+    [사용자 상황]
+    - 날씨: {weather}
+    - 함께 있는 사람: {with_whom}
+    - 현재 기분: {feel}
+    - 선호 장르: {genre}
+    - 추가 정보: {extra_info if extra_info else '없음'}
 
-st.header("👕 아이템 조합하기")
-col1, col2 = st.columns(2)
-with col1:
-    st.subheader("상의")
-    top_type = st.radio("종류", ["후드티", "셔츠", "맨투맨", "반팔 티셔츠"], key ="top_type")
-    top_color = st.select_slider("색상 톤", options=["밝음", "무난함", "어두움"], key="top_color")
-with col2:
-    st.subheader("하의")
-    bottom_type = st.radio("종류", ["청바지", "슬랙스", "트레이닝 팬츠", "반바지"], key="bottom_type")
-    bottom_color = st.select_slider("핏(Fit)", options=["슬림", "레귤러", "오버핏"], key="bottom_color")
+    [출력 형식]
+    1. 🍽️ **오늘의 추천 음식**: (음식 이름)
+       - 추천 이유: (다정한 어조로 2~3줄 설명)
 
-st.header("디테일 추가")
-tab1, tab2 = st.tabs(["신발", "액세서리"])
-with tab1:
-    st.write("오늘의 발걸음을 책임질 신발:")
-    shoes = st.selectbox("신발 선택", ["스니커즈", "운동화", "구두", "슬리퍼"], key="shoes")
-    with st.expander("신발 선택 팁 보기"):
-        st.info("너무 튀는 신발은 지양하도록 해요!")
-with tab2:
-    st.write("포인트 아이템:")
-    acc = st.multiselect("액세서리 추가", ["모자", "안경", "목걸이", "가방"], key="acc")
-    with st.expander("액세서리 스타일링 팁 보기"):
-        st.warning("너무 많은 액세서리는 투머치가 될 수 있어요.")
+    2. 🎵 **기분 맞춤 플레이리스트**:
+       - 곡 1: [가수 - 노래 제목]
+         > 추천 이유: (줄바꿈 후 한 줄 설명)
+       - 곡 2: [가수 - 노래 제목]
+         > 추천 이유: (줄바꿈 후 한 줄 설명)
+       - 곡 3: [가수 - 노래 제목]
+         > 추천 이유: (줄바꿈 후 한 줄 설명)
 
-st.markdown("---")
-if st.button("코디 완성하기"):
-    with st.container(border=True):
-        st.subheader(f"{user_name}님의 오늘의 룩북")
-        st.write(f"오늘 같은 **{weather}** 날씨에는 이렇게 입어보세요!")
-        st.markdown(f"""
-        * **상의:** {top_color} {top_type}
-        * **하의:** {bottom_color} {bottom_type}
-        * **매칭:** {shoes}와 {', '.join(acc) if acc else '악세서리 없이 깔끔하게!'}
-        """)
-        st.success("오늘의 스타일링이 완성되었습니다! 자신 있게 외출하세요!")
-        with st.expander("코디팁 영상 "):
-            st.video("https://www.youtube.com/watch?v=LebgUk-pEw8")
-            st.write("전문가가 제안하는 코디 연출법을 참고ㄱㄱ ")
-st.button("전체 초기화", on_click=reset_all)            
+    3. 💡 **음악 배경 지식 & 선곡 이유**:
+       (설명 작성)
+    """
 
+    # 2. 버튼 안쪽(들여쓰기 적용)에서 API 호출 및 spinner 실행
+    with st.spinner("당신의 기분에 딱 맞는 조합을 찾고 있어요... 🔮"):
+        try:
+            response = ai_client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+            )
+
+            result = response.choices[0].message.content
+
+            st.success("🎉 추천이 도착했습니다!")
+            st.markdown(result)
+
+            st.markdown("---")
+            st.subheader("🎬 추천된 노래 바로 듣기")
+
+            import re
+
+            songs = re.findall(r"\[(.*?)\]", result)
+
+            if songs:
+                for song in songs:
+                    encoded_song = urllib.parse.quote(f"{song} 오피셜 음원")
+                    yt_url = f"https://www.youtube.com/results?search_query={encoded_song}"
+
+                    with st.expander(f"🎵 '{song}' 바로 재생 링크 & 검색"):
+                        st.write(
+                            f"클릭하면 **{song}**의 최신 음원/뮤직비디오를 바로 들으실 수 있습니다."
+                        )
+                        st.link_button(
+                            f"▶️ YouTube에서 {song} 바로 틀기",
+                            yt_url,
+                            use_container_width=True,
+                        )
+            else:
+                default_url = f"https://www.youtube.com/results?search_query={urllib.parse.quote(genre + ' 추천 노래')}"
+                st.link_button(
+                    "▶️ YouTube에서 플레이리스트 틀기",
+                    default_url,
+                    use_container_width=True,
+                )
+
+        except Exception as e:
+            st.error(f"오류가 발생했습니다: {e}")
+st.button("전체 초기화", on_click=reset_all)
