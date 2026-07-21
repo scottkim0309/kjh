@@ -1,6 +1,10 @@
 import streamlit as st
 from openai import OpenAI
 
+if st.button("초기화"):
+        st.session_state.clear()
+        st.rerun()
+
 ai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 if "user_name" not in st.session_state:
@@ -27,10 +31,7 @@ with st.sidebar:
             st.session_state.user_name = ""
         else:
             st.session_state.user_name = input_name
-            st.success("확인되었습니다!")
-    if st.button("초기화"):
-        st.session_state.clear()
-        st.rerun()       
+            st.success("확인되었습니다!")       
 
 if not st.session_state.user_name:
     st.info("👈 사이드바에서 닉네임을 입력하고 [확인] 버튼을 눌러주세요.")
