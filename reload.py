@@ -12,7 +12,7 @@ if "todo_list" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": "넌 최고의 롤(LoL) 코치야."}]
 
-if "selected_combo" not in st.session_state:
+if "selected_combination" not in st.session_state:
     st.session_state.selected_combo = "세나,사이온"
 
 with st.sidebar:
